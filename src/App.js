@@ -34,6 +34,29 @@ function App() {
     getProducts();
   }, []);
 
+
+  const handleDeleteProducts = (id, idx) => {
+    async function delProducts() {
+      await axios
+        .delete(`${BASE_API_URL}/products/${id}`)
+        .then((res) => {
+          let arr = products;
+          if (idx !== -1) {
+            arr.splice(idx, 1)
+          }
+          setProducts([...arr]);
+        })
+        .catch((error) => {
+          console.log(error);
+          window.alert(error);
+        })
+    }
+
+    delProducts();
+  };
+
+
+
   const openDialog = () => {
     setIsDialogOpen(true);
   };
@@ -53,12 +76,13 @@ function App() {
         </div>
         <Paper elevation={2} style={{ maxHeight: "700px", overflow: "auto" }}>
           <List>
-            {products.map((d) => (
+            {products.map((d, idx) => (
               <ListItemUser
                 key={d.id}
                 image={d.thumbnail}
                 primaryText={`$${d.price} ${d.title}`}
                 secondaryText={`${d.description}`}
+                onDelete={() => handleDeleteProducts(d.id, idx)}
               />
             ))}
             {newProducts.map((d) => (
