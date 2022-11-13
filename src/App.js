@@ -54,8 +54,16 @@ function App() {
 
     delProducts();
   };
-
-
+  
+  fetch('https://dummyjson.com/products/1', {
+  method: 'PUT',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    title: 'iPhone Galaxy +1'
+  })
+})
+.then(res => res.json())
+.then(console.log); 
 
   const openDialog = () => {
     setIsDialogOpen(true);
